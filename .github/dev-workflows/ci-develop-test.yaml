@@ -1,0 +1,31 @@
+name: ci-develop-workflow
+on: 
+  pull_request:
+    branches:
+      - develop
+      - main
+
+defaults:
+  run:
+    working-directory: ./api
+
+jobs:
+  check-application:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Check linting
+        run: yarn lint
+
+      - name: Check tests
+        run: yarn test
